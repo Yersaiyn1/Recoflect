@@ -1,0 +1,31 @@
+<div class="main-box">
+  <div class="record-box">
+    <div class="header">
+      <p>Current records</p>
+      <a href="#">
+        <div class="all-records-btn">
+          all records
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="hr-line"></div>
+  <div class="data-box">
+    <div class="initial">
+      <div class="date">
+        {{dayStart()}}.{{monthStart()}} - {{dayEnd()}}.{{monthEnd()}}
+      </div>
+      <div class="income">
+        Income: {{income()}}$
+      </div>
+      <div class="expense">
+        Expense: {{expense()}}$
+      </div>
+    </div>
+    <div class="conclusion">
+      <div class="net">
+        Net: {{net()}}$
+      </div>
+    </div>
+  </div>
+</div>

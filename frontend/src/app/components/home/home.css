@@ -1,0 +1,30 @@
+.greeting {
+  /*margin-top: 10%;*/
+  /*margin-left: 20%;*/
+  font-size: 56px;
+}
+
+@media (max-width: 1000px) {
+  .main-container {
+    grid-template-columns: 1fr !important;
+    justify-items: center;
+    padding: 0 !important;
+    margin-top: 0px !important;
+  }
+
+  .limit-box {
+    margin-top: -45px ;
+  }
+}
+
+.main-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  align-items: center;
+  padding-right: 15%;
+  padding-left: 20%;
+  margin-top: 90px;
+  gap: 50px;
+
+}

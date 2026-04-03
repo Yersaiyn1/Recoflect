@@ -1,0 +1,76 @@
+
+.main-box {
+  width: 380px;
+  height: 150px;
+  border-radius: 6.7px;
+  border: 1px solid black;
+}
+
+.record-box {
+  display: flex;
+  flex-direction: column;
+  margin: -20px 10px;
+  overflow-x: hidden;
+}
+
+.record-box p {
+  font-size: 28px;
+}
+
+.hr-line {
+  border: 0.3px solid black;
+  width: 100% !important;
+  margin-top: -5px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.all-records-btn {
+  padding: 4px;
+  border-radius: 6.7px !important;
+  background-color: #0f5ad1;
+  color: white;
+}
+
+.all-records-btn:hover {
+  background-color: #145fcc;
+  transition: 0.3s ease;
+}
+
+.data-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 4px 10px;
+  align-items: center;
+  gap: 15px;
+
+}
+
+.date {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.conclusion {
+  display: flex;
+}
+
+.net {
+
+  background-color: #0f5ad1;
+  padding: 4px;
+  border-radius: 6.7px;
+  color: white;
+  font-size: 22px;
+}
+
+
+
+
+
