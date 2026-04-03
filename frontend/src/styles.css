@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow-x: hidden;
+  background-color: #f8fafe;
+}
+
+.main-font {
+  font-family: "Mona Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400; /* Use 400 for normal, 700 for bold */
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+a {
+  text-decoration: none;
+}
+
+

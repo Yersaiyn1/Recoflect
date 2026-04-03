@@ -1,0 +1,16 @@
+<div class="nav-bar main-font">
+  <div class="logo">
+    <img src="#">
+  </div>
+  <div class="main-links">
+    <a routerLink="#">Records</a>
+    <a routerLink="#">Goals</a>
+  </div>
+  <div class="right-corner">
+    @if(isLoggedIn()) {
+      <a routerLink="#" >Profile</a>
+    } @else {
+      <a routerLink="#" >Log in</a>
+    }
+  </div>
+</div>

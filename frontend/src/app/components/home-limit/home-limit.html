@@ -1,0 +1,19 @@
+<div class="main-box">
+  <div class="limit-box">
+    <p>This week's limit</p>
+    <div class="limit-bar">
+      <div class="filler" [style.width.%]="budgetLimit()"></div>
+    </div>
+    <div class="conclusion">
+      @if(budgetLimit() > 80.0) {
+        <p class="limit-80">Watch your spending</p>
+      } @else if(budgetLimit() > 40.0) {
+        <p class="limit-40">Well planned! You still have money to spend</p>
+      } @else {
+        <p class="limit-0">You're saving decently</p>
+      }
+    </div>
+  </div>
+  <div class="hr-line"></div>
+
+</div>

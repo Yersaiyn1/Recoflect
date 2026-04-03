@@ -1,0 +1,46 @@
+
+.main-box {
+  display: flex;
+  flex-direction: column;
+
+  overflow-x: hidden;
+  width: 380px;
+  height: 150px;
+  border-radius: 6.7px;
+  border: 1px solid black;
+}
+
+.limit-box {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  margin-top: -20px;
+}
+
+.limit-box p {
+  font-size: 28px;
+}
+.limit-bar {
+  height: 25px;
+  width: 220px;
+  border: 1px solid black;
+  border-radius: 15px;
+  margin-top: -7px;
+  overflow: hidden;
+  background-color: #f1f5f9;
+}
+
+.filler {
+  height: 100%;
+  background-color: #0f5ad1;
+}
+
+.conclusion p{
+  font-size: 16px;
+}
+
+.hr-line {
+  border: 0.3px solid black;
+  width: 100% !important;
+  margin-top: -94px;
+}
