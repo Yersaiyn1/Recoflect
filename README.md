@@ -107,9 +107,9 @@ The application interacts with the Django backend through several key triggers:
 | :--- | :--- | :--- |
 | GET | /api/records/ | Get all records for the logged-in user (triggers **"all expenses"**). |
 | POST | /api/records/ | Create a new record (triggers "add expense" form submission). |
-| GET | /api/records/<uuid>/ | Fetch details of a single record. |
-| PUT/PATCH`| `/api/records/<uuid>/ | Edit an existing expense. |
-| DELETE | /api/records/<uuid>/ | Delete an expense. |
+| GET | /api/records/<uuid> | Fetch details of a single record. |
+| PUT/PATCH | /api/records/<uuid> | Edit an existing expense. |
+| DELETE | /api/records/<uuid> | Delete an expense. |
 
 ---
 
@@ -120,9 +120,9 @@ The application interacts with the Django backend through several key triggers:
 | :--- | :--- | :--- |
 | GET | /api/goals/ | List all user goals (triggers "all goals" redirect). |
 | POST | /api/goals/ | Create a new goal (triggers "add goal" form submission). |
-| GET | /api/goals/<uuid>/ | Fetch details for a specific goal. |
-| PUT/PATCH`| `/api/goals/<uuid>/ | Edit goal title, deadline, or amount. |
-| DELETE | /api/goals/<uuid>/ | Delete a goal. |
+| GET | /api/goals/<uuid> | Fetch details for a specific goal. |
+| PUT/PATCH | /api/goals/<uuid> | Edit goal title, deadline, or amount. |
+| DELETE | /api/goals/<uuid> | Delete a goal. |
 
 ---
 
@@ -153,7 +153,7 @@ The application interacts with the Django backend through several key triggers:
 | POST | /api/family/join/ | User joins a family using the alphanumeric code. |
 | POST | /api/family/add-member/ | Parent adds a child/parent directly by username. |
 | GET | /api/family/details/ | Fetches the full list of members, roles, and weekly stats. |
-| DELETE | /api/family/members/<uuid>/ | Parent removes a member from the family. |
+| DELETE | /api/family/members/<uuid> | Parent removes a member from the family. |
 
 #### 🎯 Family Goals & Limits
 | Method | Endpoint | Description |
