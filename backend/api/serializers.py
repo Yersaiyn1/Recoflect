@@ -1,7 +1,9 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
 from .models import Category, Record
+
 User = get_user_model()
 
 
@@ -38,7 +40,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
-    
+
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -53,8 +56,18 @@ class RecordSerializer(serializers.ModelSerializer):
         super().__init__(*args, **kwargs)
         request = self.context.get("request")
         if request and request.user.is_authenticated:
-            self.fields["category"].queryset = Category.objects.filter(user=request.user)
+            self.fields["category"].queryset = Category.objects.filter(
+                user=request.user
+            )
 
     class Meta:
         model = Record
-        fields = ["id", "type", "category", "category_title", "amount", "date", "reflection"]   
+        fields = [
+            "id",
+            "type",
+            "category",
+            "category_title",
+            "amount",
+            "date",
+            "reflection",
+        ]
