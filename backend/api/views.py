@@ -5,9 +5,14 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .serializers import CustomTokenObtainPairSerializer, RegisterSerializer
+from .models import Category, Record
+from .serializers import (
+    CustomTokenObtainPairSerializer,
+    RegisterSerializer,
+    CategorySerializer,
+    RecordSerializer,
+)
 
-# Create your views here.
 User = get_user_model()
 
 
