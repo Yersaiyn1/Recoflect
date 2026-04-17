@@ -16,6 +16,12 @@
     </div>
     <button type="submit" [disabled]="loginForm.invalid">Login</button>
 
+    <div class="create-account-link">
+      <a class="create-account" routerLink="/register" routerLinkActive="routerLinkActive">
+        Create account
+      </a>
+    </div>
+
     </form>
 
   @if (errorMessage()) {
