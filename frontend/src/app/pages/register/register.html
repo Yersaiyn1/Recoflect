@@ -1,1 +1,42 @@
-<p>register works!</p>
+<div class="register-container main-font">
+  <div class="main-container">
+    <div class="title">
+      <h2>Recoflect</h2>
+    </div>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="input-fields">
+        <div class="input">
+          <label for="username">Username</label>
+          <input id="username" type="text" formControlName="username">
+        </div>
+
+        <div class="input">
+          <label for="email">Email</label>
+          <input id="email" type="text" formControlName="email">
+        </div>
+
+        <div class="input">
+          <label for="first_name">First name</label>
+          <input id="first_name" type="text" formControlName="first_name">
+        </div>
+
+        <div class="input">
+          <label for="password">Password</label>
+          <div class="password-wrapper">
+            <input id="password" [type]="hidePassword() ? 'password' : 'text' " formControlName="password">
+            <button type="button" class="toggle-btn" (click)="togglePassword()">
+              {{ hidePassword() ? 'Show' : 'Hide' }}
+            </button>
+            @if (registerForm.get('password')?.touched && registerForm.get('password')?.invalid) {
+              <small style="color: red; font-size: 14px;">
+                Password must be 8+ chars with a mix of uppercase, numbers, and symbols.
+              </small>
+            }
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="registerForm.invalid">Register</button>
+    </form>
+  </div>
+</div>
