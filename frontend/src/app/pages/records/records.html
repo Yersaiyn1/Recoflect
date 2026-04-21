@@ -6,7 +6,7 @@
       <p class="records-sub">View and manage your financial records</p>
     </div>
     <div class="header-right">
-      <button class="ai-btn" type="button" (click)="showAI.set(!showAI())">AI Analysis</button>
+      <button class="ai-btn" type="button" (click)="toggleAI()">AI Analysis</button>
       <app-add-record-btn (recordCreated)="loadRecords()"></app-add-record-btn>
     </div>
   </div>
@@ -14,7 +14,13 @@
   @if (showAI()) {
     <div class="ai-box">
       <span class="ai-label">Advice</span>
-      <p>Емел лох</p>
+      @if (aiLoading()) {
+        <p>Loading AI advice...</p>
+      } @else if (aiError()) {
+        <p>{{ aiError() }}</p>
+      } @else {
+        <p>{{ aiAdvice() }}</p>
+      }
     </div>
   }
 

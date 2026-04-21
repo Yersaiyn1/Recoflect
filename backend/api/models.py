@@ -1,4 +1,9 @@
 import uuid
+from abc import ABC, abstractmethod
+import json
+from json import JSONDecodeError
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
 
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser, UserManager
@@ -175,3 +180,70 @@ class BudgetPeriod(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="budgetPeriod"
     )
+
+
+class ai_abstract(ABC):
+    @abstractmethod
+    def prompt(self, text: str) -> str:
+        raise NotImplementedError
+
+
+class gemini_ai(ai_abstract):
+    system_prompt = (
+        "You are an AI assistant inside a family finance app. "
+        "Give concise, practical, supportive financial advice based on the user's data."
+    )
+
+    def prompt(self, text: str) -> str:
+        api_key = settings.GEMINI_API_KEY
+        if not api_key:
+            raise ValueError("GEMINI_API_KEY is not configured.")
+
+        payload = json.dumps(
+            {
+                "systemInstruction": {
+                    "parts": [{"text": self.system_prompt}],
+                },
+                "contents": [
+                    {
+                        "parts": [{"text": text}],
+                    }
+                ],
+                "generationConfig": {
+                    "temperature": 0.2,
+                },
+            }
+        ).encode("utf-8")
+
+        url = (
+            f"{settings.GEMINI_API_URL}/"
+            f"{settings.GEMINI_MODEL}:generateContent?key={api_key}"
+        )
+
+        request = Request(
+            url,
+            data=payload,
+            headers={
+                "Content-Type": "application/json",
+            },
+            method="POST",
+        )
+
+        try:
+            with urlopen(request, timeout=30) as response:
+                body = json.loads(response.read().decode("utf-8"))
+        except HTTPError as exc:
+            detail = exc.read().decode("utf-8", errors="ignore")
+            raise ValueError(
+                f"Gemini request failed with status {exc.code}: {detail}"
+            ) from exc
+        except URLError as exc:
+            raise ValueError(f"Gemini connection failed: {exc.reason}") from exc
+        except JSONDecodeError as exc:
+            raise ValueError("Gemini returned invalid JSON.") from exc
+
+        try:
+            parts = body["candidates"][0]["content"]["parts"]
+            return "".join(part.get("text", "") for part in parts).strip()
+        except (KeyError, IndexError, TypeError, AttributeError) as exc:
+            raise ValueError("Gemini response did not contain advice text.") from exc

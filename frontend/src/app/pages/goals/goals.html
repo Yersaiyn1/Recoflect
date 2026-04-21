@@ -7,7 +7,7 @@
       <p class="goal-sub-page">Track your financial goals and stay on target.</p>
     </div>
     <div class="header-right">
-      <button class="ai-btn" type="button" (click)="showAI.set(!showAI())">AI Analysis</button>
+      <button class="ai-btn" type="button" (click)="toggleAI()">AI Analysis</button>
       <button class="add-btn" type="button" (click)="openAddForm()">Add goal</button>
     </div>
   </div>
@@ -15,7 +15,13 @@
   @if (showAI()) {
     <div class="ai-box">
       <span class="ai-label">Advice</span>
-      <p>Емел лох</p>
+      @if (aiLoading()) {
+        <p>Loading AI advice...</p>
+      } @else if (aiError()) {
+        <p>{{ aiError() }}</p>
+      } @else {
+        <p>{{ aiAdvice() }}</p>
+      }
     </div>
   }
  
