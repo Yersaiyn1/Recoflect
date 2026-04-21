@@ -1,5 +1,6 @@
 import uuid
 
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 from django.utils import timezone
@@ -16,7 +17,7 @@ class UserQuerySet(models.QuerySet):
 
 
 class User(AbstractUser):
-    objects = UserManager.from_queryset(UserQuerySet)()
+    objects = UserManager()
 
     class Role(models.IntegerChoices):
         PARENT = 1, "Parent"
@@ -24,7 +25,7 @@ class User(AbstractUser):
         NONE = 3, "None"
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    first_name = models.CharField()
+    first_name = models.CharField(max_length=100)
     role = models.IntegerField(choices=Role, default=Role.NONE)
     family = models.ForeignKey(
         "Family",
@@ -72,8 +73,13 @@ class FamilyJoinRequest(models.Model):
 
 class Category(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    title = models.CharField(max_length=60, unique=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="categories")
+    title = models.CharField(max_length=60)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="categories", null=True, blank=True
+    )
+
+    class Meta:
+        unique_together = ("title", "user")
 
 
 class RecordQuerySet(models.QuerySet):
@@ -93,8 +99,12 @@ class RecordQuerySet(models.QuerySet):
         return self.filter(reflection=3)
 
 
+class RecordManager(models.Manager.from_queryset(RecordQuerySet)):
+    pass
+
+
 class Record(models.Model):
-    objects = RecordQuerySet.as_manager()
+    objects = RecordManager()
 
     class Type(models.IntegerChoices):
         INCOME = 1, "Income"
@@ -104,6 +114,14 @@ class Record(models.Model):
         HAPPY = 1, "Happy"
         NEUTRAL = 2, "Neutral"
         REGRET = 3, "Regret"
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="records",
+        null=True,
+        blank=True,
+    )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     type = models.IntegerField(choices=Type, default=Type.EXPENSE)

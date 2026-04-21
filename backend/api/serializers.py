@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from django.contrib.auth import get_user_model
-from django.db.models import Sum
+from django.db.models import Q, Sum
 from django.utils import timezone
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -61,7 +61,7 @@ class RecordSerializer(serializers.ModelSerializer):
         request = self.context.get("request")
         if request and request.user.is_authenticated:
             self.fields["category"].queryset = Category.objects.filter(
-                user=request.user
+                Q(user=request.user) | Q(user__isnull=True)
             )
 
     class Meta:
@@ -104,7 +104,9 @@ class GoalSerializer(serializers.ModelSerializer):
         )
 
         if amount is not None and amount <= 0:
-            raise serializers.ValidationError({"amount": "Amount must be greater than 0."})
+            raise serializers.ValidationError(
+                {"amount": "Amount must be greater than 0."}
+            )
 
         if current_amount is not None and current_amount < 0:
             raise serializers.ValidationError(
@@ -117,7 +119,9 @@ class GoalSerializer(serializers.ModelSerializer):
             and current_amount > amount
         ):
             raise serializers.ValidationError(
-                {"current_amount": "Current amount cannot be greater than target amount."}
+                {
+                    "current_amount": "Current amount cannot be greater than target amount."
+                }
             )
 
         return attrs
@@ -166,7 +170,9 @@ class FamilyMemberSerializer(serializers.ModelSerializer):
 
     def get_limit(self, obj):
         budget_period = (
-            BudgetPeriod.objects.filter(user=obj).order_by("-end_date", "-start_date").first()
+            BudgetPeriod.objects.filter(user=obj)
+            .order_by("-end_date", "-start_date")
+            .first()
         )
         return budget_period.limit_amount if budget_period else None
 

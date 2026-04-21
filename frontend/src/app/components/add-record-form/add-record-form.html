@@ -22,20 +22,20 @@
 
         <div class="form-category">
           <label>Category</label>
-          @if (categories.length > 0) {
+
             <select name="category" [(ngModel)]="record.category" required>
-              @for (cat of categories; track cat.id) {
+              @for (cat of categories(); track cat.id) {
                 <option [value]="cat.id">{{ cat.title }}</option>
               }
             </select>
-          }
+
           <div class="new-category-row">
             <input
               type="text"
               name="newCategory"
               [(ngModel)]="newCategoryTitle"
               placeholder="New category name">
-            <button type="button" (click)="addCategory()">+ Add</button>
+            <button type="button" (click)="addCategory()">Add</button>
           </div>
         </div>
 
@@ -63,7 +63,7 @@
           </select>
         </div>
 
-        <button class="submit-btn" type="submit" [disabled]="!recordForm.valid || categories.length === 0">Save</button>
+        <button class="submit-btn" type="submit" [disabled]="!recordForm.valid">Save</button>
       </form>
     </div>
   </div>

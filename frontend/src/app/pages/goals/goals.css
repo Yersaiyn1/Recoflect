@@ -26,17 +26,19 @@
 
 /* ── Add button ── */
 .add-btn {
+  width: 100%;
   background: #0f5ad1;
-  color: #fff;
+  color: #ffffff;
   border: none;
   border-radius: 10px;
-  padding: 10px 20px;
+  padding: 0.75rem 1rem;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.2s;
-  white-space: nowrap;
+  text-align: center;
+  transition: background 0.2s ease;
 }
+
 
 .add-btn:hover { background: #1a67d8; }
 
