@@ -37,7 +37,7 @@ export class AddRecordForm implements OnInit {
     this.recordService.getCategories().subscribe({
       next: cats => {
         this.categories.set(cats);
-        this.record.category = cats[0].id;
+        if (cats.length > 0) this.record.category = cats[0].id;
       },
       error: () => this.error = 'Failed to load categories.',
     });
@@ -54,8 +54,9 @@ export class AddRecordForm implements OnInit {
     );
     Promise.all(requests).then(created => {
       const cats = created.filter(Boolean) as Category[];
-      this.categories = [...this.categories, ...cats];
-      if (this.categories.length > 0) this.record.category = this.categories[0].id;
+      const updated = [...this.categories(), ...cats];
+      this.categories.set(updated);
+      if (updated.length > 0) this.record.category = updated[0].id;
       this.addingBasic = false;
     }).catch(() => {
       this.error = 'Failed to add basic categories.';
