@@ -4,7 +4,6 @@
   max-width: 960px;
   margin: 0 auto;
   padding: 2rem 3rem 3rem;
-  font-family: 'DM Sans', sans-serif;
 }
 
 /* ─── Header ─── */
@@ -16,7 +15,6 @@
 }
 
 .records-title {
-  font-family: 'Syne', sans-serif;
   font-size: 42px;
   font-weight: 700;
   color: #0f172a;
@@ -83,7 +81,6 @@
 
 /* ─── Amount ─── */
 .record-amount {
-  font-family: 'Syne', sans-serif;
   font-size: 20px;
   font-weight: 700;
 }
@@ -125,7 +122,6 @@
   border-radius: 8px;
   background: transparent;
   color: #0f5ad1;
-  font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -142,7 +138,6 @@
   border-radius: 8px;
   background: transparent;
   color: #dc2626;
-  font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -181,7 +176,6 @@
 
 /* ─── Section labels ─── */
 .section-label {
-  font-family: 'Syne', sans-serif;
   font-size: 18px;
   font-weight: 700;
   margin: 1.75rem 0 0.75rem;

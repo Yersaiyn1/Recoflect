@@ -26,7 +26,11 @@ body {
 }
 
 .main-font {
-  font-family: 'DM Sans', sans-serif;
+  font-family: "Mona Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400; /* Use 400 for normal, 700 for bold */
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
 }
 
 a {

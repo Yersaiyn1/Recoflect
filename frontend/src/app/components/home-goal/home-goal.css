@@ -25,7 +25,6 @@
 }
 
 .goal-label {
-  font-family: 'Syne', sans-serif;
   font-size: 17px;
   font-weight: 600;
   color: #0f172a;
@@ -46,14 +45,14 @@
   background: #1a67d8;
 }
 
- 
+
 .goal-body {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
- 
+
 .goal-circle {
   position: relative;
   width: 64px;
@@ -67,13 +66,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Syne', sans-serif;
   font-size: 13px;
   font-weight: 700;
   color: #0f172a;
 }
 
- 
+
 .goal-info {
   flex: 1;
   display: flex;
@@ -107,7 +105,7 @@
   color: #1e40af;
   width: fit-content;
 }
- 
+
 .bar-track {
   height: 8px;
   background: #e8f0fd;

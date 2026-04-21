@@ -56,7 +56,6 @@
 
 .family-empty-copy h1 {
   margin: 0 0 8px;
-  font-family: 'Syne', sans-serif;
   font-size: 34px;
   color: #0f172a;
 }
@@ -86,7 +85,6 @@
 
 .setup-card h2 {
   margin: 0;
-  font-family: 'Syne', sans-serif;
   font-size: 22px;
   color: #0f172a;
 }
@@ -237,7 +235,6 @@
 
 .family-header h1 {
   margin: 0 0 6px;
-  font-family: 'Syne', sans-serif;
   font-size: 28px;
   color: #0f172a;
 }
@@ -316,7 +313,6 @@
 
 .summary-card p {
   margin: 0;
-  font-family: 'Syne', sans-serif;
   font-size: 26px;
   color: #0f172a;
 }
@@ -334,7 +330,6 @@
 
 .section-title h2 {
   margin: 0;
-  font-family: 'Syne', sans-serif;
   font-size: 22px;
   color: #0f172a;
 }
