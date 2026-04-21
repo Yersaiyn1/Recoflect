@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import CustomUserChangeForm, CustomUserCreationForm
-from .models import User
+from .models import BudgetPeriod, Category, Goal, Record, User
 
 
 # Register your models here.
@@ -18,3 +18,4 @@ class CustomUserAdmin(UserAdmin):
 
 
 admin.site.register(User, CustomUserAdmin)
+admin.site.register([Record, Goal, Category, BudgetPeriod])
