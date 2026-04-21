@@ -74,7 +74,7 @@
     <div class="empty-state">
       <div class="empty-icon">🎯</div>
       <p>No goals yet. Add your first goal!</p>
-      <button class="add-btn" type="button" (click)="openAddForm()">+ Add goal</button>
+      
     </div>
   }
 
@@ -97,7 +97,7 @@
         <div class="form-group">
           <label>
             Title
-            <span class="counter">({{ newGoal.title?.length || 0 }}/50)</span>
+            <span class="counter">({{ newGoal.title.length || 0 }}/50)</span>
           </label>
           <input type="text" name="title" maxlength="50"
             [(ngModel)]="newGoal.title" required #titleField="ngModel"
