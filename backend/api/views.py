@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import transaction
+from django.db.models import Q
 from django.utils import timezone
 from rest_framework import generics, status, viewsets
 from rest_framework.decorators import api_view, permission_classes
@@ -9,19 +10,18 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import Category, Family, FamilyJoinRequest, Goal, Record, User
-from .utils import generate_family_invite_code
 from .serializers import (
     CategorySerializer,
     CustomTokenObtainPairSerializer,
     FamilyCreateSerializer,
-    FamilyJoinSerializer,
     FamilyJoinRequestSerializer,
-    FamilyPendingResponseSerializer,
+    FamilyJoinSerializer,
     FamilySerializer,
     GoalSerializer,
     RecordSerializer,
     RegisterSerializer,
 )
+from .utils import generate_family_invite_code
 
 User = get_user_model()
 
@@ -61,7 +61,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Category.objects.filter(user=self.request.user)
+        return Category.objects.filter(Q(user=self.request.user) | Q(user__isnull=True))
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -71,8 +71,11 @@ class RecordViewSet(viewsets.ModelViewSet):
     serializer_class = RecordSerializer
     permission_classes = [IsAuthenticated]
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
     def get_queryset(self):
-        qs = Record.objects.filter(category__user=self.request.user).order_by("-date")
+        qs = Record.objects.filter(user=self.request.user).order_by("-date")
         record_type = self.request.query_params.get("type")
         reflection = self.request.query_params.get("reflection")
         if record_type:
@@ -92,7 +95,9 @@ class GoalViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        queryset = Goal.objects.filter(user=self.request.user).order_by("deadline", "title")
+        queryset = Goal.objects.filter(user=self.request.user).order_by(
+            "deadline", "title"
+        )
 
         importance = self.request.query_params.get("importance")
         overdue = self.request.query_params.get("overdue")
@@ -129,7 +134,9 @@ def family_detail_view(request):
         }
         return Response(payload, status=status.HTTP_200_OK)
 
-    return Response(serialize_family(request.user.family, request), status=status.HTTP_200_OK)
+    return Response(
+        serialize_family(request.user.family, request), status=status.HTTP_200_OK
+    )
 
 
 @api_view(["POST"])
@@ -272,7 +279,9 @@ def family_remove_member_view(request):
         and family.members.count() > 1
     ):
         return Response(
-            {"detail": "You cannot remove the last parent while family members still remain."},
+            {
+                "detail": "You cannot remove the last parent while family members still remain."
+            },
             status=status.HTTP_400_BAD_REQUEST,
         )
 
@@ -299,7 +308,9 @@ def family_leave_view(request):
         and family.members.count() > 1
     ):
         return Response(
-            {"detail": "You cannot leave as the last parent while other members remain."},
+            {
+                "detail": "You cannot leave as the last parent while other members remain."
+            },
             status=status.HTTP_400_BAD_REQUEST,
         )
 

@@ -14,7 +14,7 @@
 }
 
 .greeting-title {
-  font-family: 'Syne', sans-serif;
+
   font-size: 42px;
   font-weight: 700;
   color: #0f172a;
@@ -27,7 +27,7 @@
 }
 
 .greeting-sub {
-  font-family: 'DM Sans', sans-serif;
+
   font-size: 14px;
   color: #64748b;
   margin: 0;

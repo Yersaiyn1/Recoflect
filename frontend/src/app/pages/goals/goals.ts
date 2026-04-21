@@ -2,11 +2,13 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GoalItem, GoalService } from '../../services/goal-service';
+import {AddRecordBtn} from '../../components/add-record-btn/add-record-btn';
+import {AddGoal} from '../../components/add-goal-btn/add-goal-btn';
 
 @Component({
   selector: 'app-goals',
   standalone: true,
-  imports: [CommonModule, DecimalPipe, FormsModule],
+  imports: [CommonModule, DecimalPipe, FormsModule, AddRecordBtn, AddGoal],
   templateUrl: './goals.html',
   styleUrl: './goals.css',
   providers: [GoalService],
