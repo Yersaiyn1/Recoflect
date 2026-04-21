@@ -11,7 +11,16 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .models import Category, Family, FamilyJoinRequest, Goal, Record, User
+from .models import (
+    Category,
+    Family,
+    FamilyJoinRequest,
+    Goal,
+    Record,
+    User,
+    ai_abstract,
+    gemini_ai,
+)
 from .serializers import (
     CategorySerializer,
     CustomTokenObtainPairSerializer,
@@ -26,10 +35,32 @@ from .serializers import (
 from .utils import generate_family_invite_code
 
 User = get_user_model()
+ai_bot: ai_abstract = gemini_ai()
 
 
 def serialize_family(family, request):
     return FamilySerializer(family, context={"request": request}).data
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def advice_view(request):
+    prompt_text = str(request.data.get("prompt", "")).strip()
+    if not prompt_text:
+        return Response(
+            {"detail": "Prompt is required."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    try:
+        advice = ai_bot.prompt(prompt_text)
+    except ValueError as exc:
+        return Response(
+            {"detail": str(exc)},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE,
+        )
+
+    return Response({"advice": advice}, status=status.HTTP_200_OK)
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):

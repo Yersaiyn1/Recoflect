@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { GoalItem, GoalService } from '../../services/goal-service';
 import {AddRecordBtn} from '../../components/add-record-btn/add-record-btn';
 import {AddGoal} from '../../components/add-goal-btn/add-goal-btn';
+import { AiService } from '../../services/ai-service';
 
 @Component({
   selector: 'app-goals',
@@ -20,6 +21,9 @@ export class Goals implements OnInit {
   error = signal<string | null>(null);
   goals = signal<GoalItem[]>([]);
   showAI = signal<boolean>(false);
+  aiLoading = signal<boolean>(false);
+  aiAdvice = signal<string | null>(null);
+  aiError = signal<string | null>(null);
 
   newGoal = {
     title: '',
@@ -29,7 +33,10 @@ export class Goals implements OnInit {
     importance: 2 as 1 | 2 | 3,
   };
 
-  constructor(private goalService: GoalService) {}
+  constructor(
+    private goalService: GoalService,
+    private aiService: AiService,
+  ) {}
 
   ngOnInit(): void {
     this.loadGoals();
@@ -142,6 +149,49 @@ export class Goals implements OnInit {
     this.goalService.deleteGoal(id).subscribe({
       next: () => this.goals.update(list => list.filter(g => g.id !== id)),
       error: () => this.error.set('Failed to delete goal.'),
+    });
+  }
+
+  toggleAI(): void {
+    const nextState = !this.showAI();
+    this.showAI.set(nextState);
+
+    if (nextState && !this.aiAdvice() && !this.aiLoading()) {
+      this.loadAIAdvice();
+    }
+  }
+
+  loadAIAdvice(): void {
+    this.aiLoading.set(true);
+    this.aiError.set(null);
+
+    const goalsSummary = this.goals().length
+      ? this.goals()
+          .map(goal => {
+            const daysLeft = this.getDaysLeft(goal.deadline);
+            return `${goal.title}: saved ${goal.current_amount} of ${goal.amount}, deadline ${goal.deadline}, days left ${daysLeft}, importance ${this.getImportanceLabel(goal.importance)}`;
+          })
+          .join('; ')
+      : 'No goals yet.';
+
+    const prompt = [
+      'You are analyzing financial goals in a budgeting app.',
+      'Give a very short response: 2-4 sentences total.',
+      'For each goal, consider target amount, saved amount, importance, deadline, and days left.',
+      'Point out the most urgent goal, mention if a deadline is close or overdue, and give brief motivation.',
+      'Keep the tone supportive and practical.',
+      `Goals: ${goalsSummary}`,
+    ].join(' ');
+
+    this.aiService.getAdvice(prompt).subscribe({
+      next: response => {
+        this.aiAdvice.set(response.advice);
+        this.aiLoading.set(false);
+      },
+      error: err => {
+        this.aiError.set(err?.error?.detail ?? 'Failed to get AI advice.');
+        this.aiLoading.set(false);
+      },
     });
   }
 }
